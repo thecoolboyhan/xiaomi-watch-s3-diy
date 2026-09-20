@@ -1,112 +1,150 @@
-# 小米 Watch S3 自研表盘工程（RouletteS3 / MinimalS3 / daynight）
+# Custom Watchfaces for Xiaomi Watch S3 (RouletteS3 / MinimalS3 / daynight)
 
-对小米 Watch S3 (M2313W1) 表盘格式（ws3）的逆向分析与自研打包工具链，用于制作带 **平滑扫秒 / AOD 息屏 / 四角圆角进度弧** 的自定义表盘。
+English | [简体中文](README.zh-CN.md)
 
-## 这是什么
+Reverse-engineering notes and a homegrown packaging toolchain for the Xiaomi Watch S3 (M2313W1)
+watchface format (`ws3`), used to build custom dials with **smooth sweep seconds, an AOD
+(always-on display) face, and rounded corner progress arcs**.
 
-- 目标设备：小米 Watch S3 (M2313W1)，466×466 AMOLED，逻辑画布 464×464，圆心 (232,232)
-- 三套成品表盘：
-  - **RouletteS3**（轮盘盘）：类 Google Pixel Watch 风格，平滑扫秒 + AOD + 四角圆角进度弧（最新 v74）
-  - **MinimalS3**（数字盘）：无指针数字盘，随时间变化的问候语 + 冒号 1Hz 闪烁 + 完美 AOD 过渡（最新 v5_fix）
-  - **daynight**（昼夜盘）：随日出日落自动换背景（最新 v5）
-- 自研 Java 打包器 **Mi8WfBinTool**：从 `wfDef.json` + PNG 素材打包成可安装的 `.bin`
+![Previews](docs/preview_banner.png)
 
-## 特性
+## What is this
 
-- 平滑扫秒（固件亚秒插值，非 1Hz 跳秒）
-- AOD 息屏显示（双面盘，黑底灰阶）
-- 四角圆角进度弧（步数 / 卡路里 / 电量 / 温度）
-- 数字盘：24 帧问候语 + 冒号 1Hz 闪烁（兼容自动换背景）
-- 点击热区跳转（天气 / 心率 / 步数 / 闹钟等，prop9）
+- Target device: Xiaomi Watch S3 (M2313W1), 466×466 AMOLED, logical canvas 464×464, center (232,232)
+- Three finished dials:
+  - **RouletteS3**: Google Pixel Watch-style roulette dial — smooth sweep seconds + AOD + four rounded progress arcs (latest v74)
+  - **MinimalS3**: digital dial with time-aware greetings, 1 Hz colon blink and a clean AOD transition (latest v5_fix)
+  - **daynight**: auto day/night background switching (day/night-enhanced MinimalS3, shipped as MinimalS3_v5_fix)
+- **Mi8WfBinTool**, our own Java packer: builds installable `.bin` files from `wfDef.json` + PNG assets
 
-## 法律与版权声明（务必先读）
+## Features
 
-- 本项目包含对小米官方表盘二进制的**逆向工程**分析，仅供 **个人学习与研究**。
-- `reference/` 下明确标注的第三方官方闭源表盘（`谷歌轮盘·橙.bin`、`寻路者·黄.bin`）**已默认排除出本仓库**（见 `.gitignore`），其版权归原厂商所有，请勿分发。
-- 自研打包器 `Mi8WfBinTool` 的逆向经验来源于开源项目 **ooflet/Mi-Create**（MIT），本项目仅用于个人自定义表盘制作。
-- **请勿将本仓库内容用于任何商业分发。** 由此产生的一切法律责任由使用者自行承担。
+- Smooth sweep seconds (firmware sub-second interpolation, not 1 Hz ticking)
+- AOD face (dual-face dial, black background / grayscale)
+- Four rounded corner progress arcs (steps / calories / battery / temperature)
+- Digital dial: 24 greeting frames + 1 Hz colon blink (compatible with auto day/night backgrounds)
+- Tap hot-zones (weather / heart rate / steps / alarms, via prop9)
 
-## 环境要求
+## Legal & copyright (read this first)
 
-- macOS / Linux（类 Unix）
-- JDK（已在 OpenJDK 25 编译验证；`javac` / `java` 在 PATH）
-- Python 3 + Pillow（本项目使用 `/Users/admin/.workbuddy/binaries/python/envs/watchface/bin/python3`，**纯 PIL，无 numpy**）
-- 一台小米 Watch S3 真机 + 小米运动健康（Mi Fitness）App 用于装机验证（模型无法读屏，一切改动以真机反馈为唯一验收标准）
+- This project contains **reverse-engineered** analysis of Xiaomi's official watchface binaries,
+  for **personal study and research only**.
+- The third-party official closed-source dials in `reference/` (`谷歌轮盘·橙.bin`, `寻路者·黄.bin`)
+  are **excluded from this repository** by default (see `.gitignore`); they belong to their original owners.
+- The packer builds on knowledge from the open-source project **ooflet/Mi-Create** (MIT).
+- **Source code** is released under the [MIT License](LICENSE). **Compiled dial `.bin` files and their
+  embedded artwork are personal creative works and are NOT covered by the MIT license** (all rights
+  reserved). Xiaomi firmware / official dials and trademarks are out of scope.
+- **Do not redistribute any of this commercially.** You assume all legal responsibility for your use.
 
-## 目录结构
+## Requirements
+
+- macOS / Linux
+- JDK (verified with OpenJDK 25; `javac` / `java` on PATH)
+- Python 3 + Pillow: `pip install -r requirements.txt` (pure PIL, no numpy)
+- Asset-generation scripts use the macOS system font (`/System/Library/Fonts/SFNS.ttf`);
+  on Linux, adjust the font path
+- A real Xiaomi Watch S3 + the Mi Fitness app to install and verify — **on-device feedback is the
+  only acceptance test**
+
+## Repository layout
 
 ```
-ai/watch/
-├── README.md            ← 本文件（面向人）
-├── AGENTS.md            ← AI 接手指南（工具链 / 二进制格式 / 已修 bug / 验证清单 / 当前状态）
+├── README.md            ← this file
+├── README.zh-CN.md      ← Chinese readme
+├── AGENTS.md            ← AI handover guide (toolchain, fixed bugs, checklists, status)
+├── LICENSE              ← MIT (source code only; excludes bins/artwork)
+├── docs/
+│   └── FORMAT.md        ← ws3 binary format reference (header / face record / prop7Raw / dataSrc)
 ├── tools/
-│   ├── Mi8WfBinTool/    ← 打包器源码(Java) + 编译好的 .class + build.sh  ← 唯一真源
+│   ├── Mi8WfBinTool/    ← packer source (Java) + build.sh  ← single source of truth (no .class in repo)
 │   └── scripts/         ← patch_header.py / gen_assets_*.py / assemble_*.py
 ├── project/
-│   ├── ws3/             ← 轮盘盘工程源：wfDef.json(含全部 prop7Raw) + images/ + images_aod/
-│   ├── build_v64.py …   ← 各版构建/素材重绘脚本
-│   ├── minimal/         ← 数字盘工程
-│   └── daynight_v5/     ← 昼夜盘工程
-├── deliverables/        ← 各版 .bin + 预览图（RouletteS3_v74.bin 等）
-└── reference/           ← 官方数据源 JSON + 自研基准盘（第三方官方 bin 已 gitignore）
+│   ├── ws3/             ← roulette dial sources: wfDef.json (with all prop7Raw) + images/ + images_aod/
+│   ├── build_v64.py …   ← per-version build / asset-redraw scripts
+│   ├── minimal/         ← digital dial project
+│   └── daynight_v5/     ← day/night dial project
+├── deliverables/        ← latest .bin + previews (older versions on GitHub Releases)
+└── reference/           ← official data-source JSON + our baseline dials (official bins gitignored)
 ```
 
-## 快速开始（重新打包轮盘盘 v74）
+## Quick start (rebuild RouletteS3 v74)
 
 ```bash
-# 1. 编译打包器
+# 0. Python dependencies
+pip install -r requirements.txt
+
+# 1. Build the packer
 cd tools/Mi8WfBinTool && bash build.sh && cd ../..
 
-# 2. 打包当前工程源
+# 2. Pack the current dial sources
 java -cp tools/Mi8WfBinTool Mi8WfBinTool pack project/ws3 out.bin ws3
 
-# 3. 补表头（平滑开关 byte[6]、标志 0x16、styleCount）
+# 3. Patch the header (smooth switch byte[6], flag 0x16, styleCount)
 python3 tools/scripts/patch_header.py out.bin 1 4 1
 
-# 4. 解包回读验证（见 AGENTS.md §8 验证清单）
+# 4. Unpack and verify (see AGENTS.md §8 checklist)
 java -cp tools/Mi8WfBinTool Mi8WfBinTool unpack out.bin /tmp/chk ws3
 
-# 5. 装机：把 out.bin 拷到手表 → Mi Fitness → 表盘管理 → 自定义 → 导入
+# 5. Install: copy out.bin to the watch → Mi Fitness → Watch faces → Custom → Import
 ```
 
-## 工具链
+> Notes: every script under `project/` resolves paths relative to the repository root
+> (it walks up until it finds `tools/`), so clones work from anywhere.
+> The digital/day-night `gen_assets.py` scripts expect a 2048×2048 design reference image
+> (not in the repo); point the `WF_REF_IMAGE` environment variable at your local copy.
 
-| 工具 | 作用 |
+## Toolchain
+
+| Tool | Purpose |
 |---|---|
-| `Mi8WfBinTool`（Java） | `pack <dir> <out> ws3` / `unpack <bin> <out> ws3`，逐字段比对两个盘的金标准 |
-| `patch_header.py` | 回补 `byte[6]=1`(扫秒开关)、`0x16=1`、`styleCount=4` |
-| `gen_assets_*.py` | 用 PIL 生成素材 PNG（轮盘环 / 数字字模 / 弧帧） |
-| `assemble_*.py` | 合成 wfDef.json |
-| `preview*.py` / `build*.py` | 静态预览与一键流水线 |
+| `Mi8WfBinTool` (Java) | `pack <dir> <out> ws3` / `unpack <bin> <out> ws3`; the gold standard for byte-level diffing |
+| `patch_header.py` | Restores `byte[6]=1` (smooth switch), `0x16=1`, `styleCount=4` |
+| `gen_assets_*.py` | PIL-based asset generation (roulette rings / digit glyphs / arc frames) |
+| `assemble_*.py` | wfDef.json assembly |
+| `preview*.py` / `build*.py` | Static previews and one-shot pipelines |
 
-## 关键技术结论（想改格式必读）
+## Key technical findings (read before touching the format)
 
-完整细节在 **AGENTS.md**，这里只列定论：
+Full format reference: **[docs/FORMAT.md](docs/FORMAT.md)**; debug history in **AGENTS.md**. TL;DR:
 
-- **平滑扫秒真配方**：主元素列表最前两位 `[0]/[1]` 放指针（ds=1811 秒 / 1011 分，prop7Index 12/13）+ 每个 dignum/imagelist 的 **prop7Raw 通道字节**（b6-7=刷新毫秒，必须非零）。
-- **AOD 双面盘生死线**：face record `u32@+0 = 0x80000000`（仅 AOD 盘两面置位，1-face 盘保持 0）。
-- **dataSrc 合法表**：见 `reference/micreate_sources_official.json`（Mi-Create 官方 76 条）。常见坑：`381202`/`084102` 是旧打包器污染出的非法源，会整 face 跳秒。
-- **打包器已修 4 个 bug**：showCount 覆盖 dataSrc 第三字节、styleCount 硬编码 6、AOD face record 缺 0x80000000、spacing 覆写 imagelist b13。改源码前先读 AGENTS.md §4。
+- **The real smooth-seconds recipe**: pointers occupy the first two main elements (`[0]/[1]`,
+  ds=1811 seconds / 1011 minutes, prop7Index 12/13) **plus** a valid `prop7Raw` channel block on every
+  dignum/imagelist element (b6–b7 = refresh milliseconds, must be non-zero).
+- **AOD life-or-death line**: face record `u32@+0 = 0x80000000` (set on both faces of AOD dials only;
+  keep 0 on single-face dials).
+- **Legal dataSrc table**: see `reference/micreate_sources_official.json` (76 official entries from Mi-Create).
+  Watch out: `381202`/`084102` are illegal sources produced by an old packer bug and disable face animation.
+- **4 packer bugs fixed**: showCount overwriting dataSrc byte 3, hardcoded styleCount 6, missing AOD
+  `0x80000000`, spacing overwriting imagelist b13. Read AGENTS.md §4 before changing packer source.
 
-## 复用边界
+## Reuse boundaries
 
-- **同款换肤 / 配色 / 换某张素材** → 直接改 `project/ws3` 重打包（极低成本）。
-- **Mi-Create 导出的新 bin 想改细节** → `unpack` 改 `wfDef` 再 `pack`（注意：unpack 会剥掉 prop7Raw，重打包前务必用工程里的 wfDef 兜底）。
-- **全新风格表盘（数字 / 指针 / 拟物）** → 复用工具链 + 格式知识，但 wfDef 骨架从头设计（因有逆向结论，远快于从零）。
+- **Re-skin / re-color / swap an asset of the same dial** → edit `project/ws3` and re-pack (very cheap).
+- **Tweak a bin exported from Mi-Create** → `unpack`, edit `wfDef`, `pack` (careful: unpack strips prop7Raw —
+  always backfill prop7Raw from the project's wfDef before re-packing).
+- **A brand-new dial style** → reuse the toolchain + format knowledge, but design the wfDef skeleton
+  from scratch (much faster than starting blind, thanks to the reverse-engineering notes).
 
-## 验证清单（出每版必做）
+## Verification checklist (every release)
 
-- `byte[6]=1`、`0x10=0x800`、`0x16=1`、`faceCount=2`、`styleCount=4`
-- 两个 face record `u32@+0 = 0x80000000`
-- 指针签名 `18110030` / `10110030` 各 1 次
-- 4 弧元素 x/y=(0,0) 且各 11 帧；体积 < 4MB
-- 像素级：亮度 / alpha 阈值取点 → 算 web 角与半径 → 对照预期象限
+- `byte[6]=1`, `0x10=0x800`, `0x16=1`, `faceCount=2`, `styleCount=4`
+- Both face records: `u32@+0 = 0x80000000`
+- Pointer signatures `18110030` / `10110030` exactly once each
+- 4 arc elements at x/y=(0,0) with 11 frames each; size < 4 MB
+- Pixel-level: threshold brightness/alpha sampling → compute web angle & radius → compare against expected quadrant
 
-## 参考与致谢
+## Changelog
 
-- [ooflet/Mi-Create](https://github.com/ooflet/Mi-Create)（MIT，逆向起点与 `jump_codes` 来源）
-- 小米官方对照表盘（已 gitignore，仅本地用于字段比对）
+See [CHANGELOG.md](CHANGELOG.md); older `.bin` releases on [GitHub Releases](../../releases).
+
+## Credits
+
+- [ooflet/Mi-Create](https://github.com/ooflet/Mi-Create) (MIT — the reverse-engineering starting point and source of `jump_codes`)
+- Xiaomi official dials (gitignored, used locally for byte-level comparison only)
 
 ## License
 
-个人学习 / 研究用途。代码可参考，商业分发需自行评估合规风险。（如需明确开源许可，可补 `LICENSE` 文件。）
+Source code: [MIT](LICENSE). Compiled dial `.bin` files and artwork are **not** covered (all rights reserved).
+Xiaomi firmware / official dials / trademarks belong to their original owners. Evaluate compliance yourself
+before any commercial redistribution.

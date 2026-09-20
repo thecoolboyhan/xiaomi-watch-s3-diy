@@ -1,0 +1,39 @@
+MIT License
+
+Copyright (c) 2026 thecoolboyhan and xiaomi-watch-s3-diy contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---------------------------------------------------------------------------
+
+SCOPE EXCLUSION (许可范围排除声明):
+
+The MIT license above covers SOURCE CODE only (tools/, project/*.py,
+scripts, build tooling and documentation).
+
+It does NOT cover:
+  * Compiled watchface binaries (`deliverables/*.bin`) and their embedded
+    artwork — these are personal creative works, all rights reserved.
+  * Xiaomi's official firmware, official watchface binaries or any
+    Xiaomi/Mi Fitness trademarks and assets. Reverse-engineering results
+    are provided for personal study and interoperability only.
+
+即：本项目源代码按 MIT 开源；成品表盘 .bin 及其内嵌美术素材为个人创作，
+保留所有权利；小米官方固件/表盘及相关商标不在许可范围内，逆向结论仅供
+个人学习与互操作研究使用。

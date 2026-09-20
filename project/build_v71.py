@@ -11,12 +11,16 @@ v71 构建器（在 v70 基础上）:
      时/分数字位图 ×1.5, 星期色 94→140)
 """
 import sys, math, json, shutil, glob, os
-sys.path.insert(0, "/Users/admin/ai/watch/tools/scripts")
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+sys.path.insert(0, _os.path.join(ROOT, "tools/scripts"))
 import gen_assets_v3 as G
 import gen_assets_html as G2
 from PIL import Image, ImageDraw, ImageFont
 
-WS3 = "/Users/admin/ai/watch/project/ws3"
+WS3 = _os.path.join(ROOT, "project/ws3")
 CANVAS, C = 464, (232, 232)
 ARC_R, ARC_W, SCALE = 218, 11, 4
 TRACK = (60, 60, 70, 255)

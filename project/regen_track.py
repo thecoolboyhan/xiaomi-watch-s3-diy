@@ -9,11 +9,15 @@ We redraw the 4 arcs with rounded caps (same ARC_R=206, ARC_W=11, dim gray
 (60,60,70)) and reuse gen_assets_v3.draw_icon for the icons.
 """
 import sys, math
-sys.path.insert(0, "/Users/admin/ai/watch/tools/scripts")
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+sys.path.insert(0, _os.path.join(ROOT, "tools/scripts"))
 import gen_assets_v3 as G
 from PIL import Image, ImageDraw
 
-OUT = "/Users/admin/ai/watch/project/ws3/images/image_0002.png"
+OUT = _os.path.join(ROOT, "project/ws3/images/image_0002.png")
 CANVAS = 464
 C = (232, 232)
 ARC_R = 206

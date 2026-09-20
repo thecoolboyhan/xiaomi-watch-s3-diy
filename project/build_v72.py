@@ -11,11 +11,15 @@ v72 构建器（在 v71 基础上）:
      时数字→睡眠 0100C310
 """
 import sys, math, json, glob, os, shutil
-sys.path.insert(0, "/Users/admin/ai/watch/tools/scripts")
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+sys.path.insert(0, _os.path.join(ROOT, "tools/scripts"))
 import gen_assets_v3 as G
 from PIL import Image, ImageDraw, ImageFont
 
-WS3 = "/Users/admin/ai/watch/project/ws3"
+WS3 = _os.path.join(ROOT, "project/ws3")
 CANVAS = 464
 SCALE, SS = 36, 4           # 天气图标 36px 盒, 4x 超采样
 LINE = (235, 235, 240, 255)

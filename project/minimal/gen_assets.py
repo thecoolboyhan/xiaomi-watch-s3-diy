@@ -20,6 +20,10 @@ MinimalS3 v2 — 白底极简数字表盘素材生成（按参考图像素级实
 import os, math, json
 from PIL import Image, ImageDraw, ImageFont
 
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
 ROOT = os.path.dirname(os.path.abspath(__file__))
 IMG = os.path.join(ROOT, "images")
 IMG_AOD = os.path.join(ROOT, "images_aod")
@@ -229,7 +233,7 @@ gen(IMG, C)
 gen(IMG_AOD, CA)
 
 # ---------------- 图标: 直接从参考图抠取 (形状 100% 一致) ----------------
-REF = "/Users/admin/Downloads/1/简约表盘，后面做.png"
+REF = _os.environ.get("WF_REF_IMAGE", _os.path.join(ROOT, "reference", "design_ref_2048.png"))  # 外部设计参考图, 不入库; 用环境变量 WF_REF_IMAGE 指向本地副本
 REF_CX, REF_CY, REF_R, REF_K = 1002, 1032, 780, 464.0 / 1560
 
 

@@ -4,8 +4,12 @@
 import statistics
 from PIL import Image
 
-REF = "/Users/admin/Downloads/1/简约表盘，后面做.png"
-MINE = "/Users/admin/ai/watch/project/minimal/preview_render.png"
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+REF = _os.environ.get("WF_REF_IMAGE", _os.path.join(ROOT, "reference", "design_ref_2048.png"))  # 外部设计参考图, 不入库; 用环境变量 WF_REF_IMAGE 指向本地副本
+MINE = _os.path.join(ROOT, "project/minimal/preview_render.png")
 CX, CY, R, K = 1002, 1032, 780, 464.0 / 1560
 t = lambda x, y: (round((x - CX + R) * K, 1), round((y - CY + R) * K, 1))
 

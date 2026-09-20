@@ -12,7 +12,11 @@ v70 构建器（在 v69 基础上）: 日期/星期字体升级
 import math, json
 from PIL import Image, ImageDraw, ImageFont
 
-WS3 = "/Users/admin/ai/watch/project/ws3"
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+WS3 = _os.path.join(ROOT, "project/ws3")
 FONT = "/System/Library/Fonts/Supplemental/DIN Alternate Bold.ttf"
 
 def render_frames(labels, sz, color):

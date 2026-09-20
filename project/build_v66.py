@@ -12,11 +12,15 @@ v66 builder（在 v65 基础上）:
   3. 温度 ° 符号左移贴近数字 (showZero=false 时 "29" 比 3 位窄, 原 x=296 有 ~1 字宽空隙)。
 """
 import sys, math, json
-sys.path.insert(0, "/Users/admin/ai/watch/tools/scripts")
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+sys.path.insert(0, _os.path.join(ROOT, "tools/scripts"))
 import gen_assets_v3 as G
 from PIL import Image, ImageDraw
 
-WS3 = "/Users/admin/ai/watch/project/ws3"
+WS3 = _os.path.join(ROOT, "project/ws3")
 CANVAS, C = 464, (232, 232)
 
 # ---- 1. 双盘数字重排 ----

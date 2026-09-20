@@ -16,13 +16,17 @@ v64 builder: 修跳秒 + 弧通道 + 显存超预算
   C. 重绘 44 张弧帧为"圆角帽 + 裁剪小图块"，并回写弧元素 x/y = 裁剪框左上角
 """
 import json, math, struct, sys
-sys.path.insert(0, "/Users/admin/ai/watch/tools/scripts")
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+sys.path.insert(0, _os.path.join(ROOT, "tools/scripts"))
 import gen_assets_v3 as G
 from PIL import Image, ImageDraw
 
-WS3 = "/Users/admin/ai/watch/project/ws3"
-V58 = "/Users/admin/ai/watch/reference/RouletteS3_v58.bin"
-V60 = "/Users/admin/ai/watch/reference/RouletteS3_v60.bin"
+WS3 = _os.path.join(ROOT, "project/ws3")
+V58 = _os.path.join(ROOT, "reference/RouletteS3_v58.bin")
+V60 = _os.path.join(ROOT, "reference/RouletteS3_v60.bin")
 
 # ---------------------------------------------------------------- A. prop7Raw
 def extract_idx(binp, want_idx):

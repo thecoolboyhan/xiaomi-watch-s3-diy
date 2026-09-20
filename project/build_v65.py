@@ -11,7 +11,11 @@ v65 builder（在 v64 基础上）:
 """
 import json
 
-WS3 = "/Users/admin/ai/watch/project/ws3"
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+WS3 = _os.path.join(ROOT, "project/ws3")
 wf = json.load(open(f"{WS3}/wfDef.json"))
 
 # ---- 1. 卡路里槽位（按 v64 时的 dataSrc 定位：数字 082203 / 弧 0822）----

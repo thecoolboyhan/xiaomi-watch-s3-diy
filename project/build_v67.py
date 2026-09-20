@@ -10,11 +10,15 @@ v67 builder（在 v66 基础上）:
   3. AOD: 启用命名 face 记录布局（namedFaceRecords，谷歌/寻路者同款结构）。
 """
 import sys, math, json
-sys.path.insert(0, "/Users/admin/ai/watch/tools/scripts")
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+sys.path.insert(0, _os.path.join(ROOT, "tools/scripts"))
 import gen_assets_v3 as G
 from PIL import Image, ImageDraw
 
-WS3 = "/Users/admin/ai/watch/project/ws3"
+WS3 = _os.path.join(ROOT, "project/ws3")
 CANVAS, C = 464, (232, 232)
 ARC_R, ARC_W, SCALE = 206, 11, 4
 TRACK = (60, 60, 70, 255)

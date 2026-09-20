@@ -12,12 +12,16 @@ v69 构建器（在 v68 基础上）: 整体布局向外扩
      AOD 元素位置不变 (时 232,182 / 分 363,212 恰在新红框中心 / 星期 203,166)
 """
 import sys, math, json
-sys.path.insert(0, "/Users/admin/ai/watch/tools/scripts")
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+sys.path.insert(0, _os.path.join(ROOT, "tools/scripts"))
 import gen_assets_v3 as G
 import gen_assets_html as G2
 from PIL import Image, ImageDraw
 
-WS3 = "/Users/admin/ai/watch/project/ws3"
+WS3 = _os.path.join(ROOT, "project/ws3")
 CANVAS, C = 464, (232, 232)
 ARC_R, ARC_W, SCALE, N = 218, 11, 4, 11
 K = 1.06                      # 圈环/读数窗缩放系数

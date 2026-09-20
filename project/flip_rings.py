@@ -25,13 +25,17 @@ Why:
 PIL convention verified empirically: rotate(-x) = clockwise by x.
 """
 import sys, math
-sys.path.insert(0, "/Users/admin/ai/watch/tools/scripts")
+import os as _os
+ROOT = _os.path.dirname(_os.path.abspath(__file__))
+while not _os.path.isdir(_os.path.join(ROOT, "tools")):
+    ROOT = _os.path.dirname(ROOT)
+sys.path.insert(0, _os.path.join(ROOT, "tools/scripts"))
 import gen_assets_v3 as G
 from PIL import Image
 
 CANVAS = 464
 C = (232, 232)
-OUT = "/Users/admin/ai/watch/project/ws3/images"
+OUT = _os.path.join(ROOT, "project/ws3/images")
 
 
 def build_wedge_mask(r0, r1, center_deg, half_width):
