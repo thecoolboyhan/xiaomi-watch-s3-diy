@@ -1,4 +1,4 @@
-# 小米 Watch S3 自研表盘工程（RouletteS3 / MinimalS3 / daynight）
+# 小米 Watch S3 自研表盘工程（RouletteS3 / MinimalS3 / daynight / ElderS3）
 
 [English](README.md) | 简体中文
 
@@ -9,10 +9,12 @@
 ## 这是什么
 
 - 目标设备：小米 Watch S3 (M2313W1)，466×466 AMOLED，逻辑画布 464×464，圆心 (232,232)
-- 三套成品表盘：
+- 四套成品表盘：
   - **RouletteS3**（轮盘盘）：类 Google Pixel Watch 风格，平滑扫秒 + AOD + 四角圆角进度弧（最新 v74）
   - **MinimalS3**（数字盘）：无指针数字盘，随时间变化的问候语 + 冒号 1Hz 闪烁 + 完美 AOD 过渡（最新 v5_fix）
   - **daynight**（昼夜盘）：随日出日落自动换背景（MinimalS3 的昼夜增强版，对应 MinimalS3_v5_fix）
+  - **ElderS3**（老人盘）：面向老人的大字数字盘——118px 大时间、红色大号心率、电量/天气/步数全带中文标签，
+    天气图标由官方 25 种天气码驱动自动切换，冒号 1Hz 闪烁 + AOD 息屏（最新 v2）
 - 自研 Java 打包器 **Mi8WfBinTool**：从 `wfDef.json` + PNG 素材打包成可安装的 `.bin`
 
 ## 特性

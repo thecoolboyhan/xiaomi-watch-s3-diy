@@ -20,3 +20,4 @@ __pycache__/
 # 自研基准盘（v58/v59/v60）与官方数据源 JSON 仍保留在仓库中。
 reference/谷歌轮盘·橙.bin
 reference/寻路者·黄.bin
+project/elder/*.bin

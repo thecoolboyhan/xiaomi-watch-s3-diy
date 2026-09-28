@@ -1,4 +1,4 @@
-# Custom Watchfaces for Xiaomi Watch S3 (RouletteS3 / MinimalS3 / daynight)
+# Custom Watchfaces for Xiaomi Watch S3 (RouletteS3 / MinimalS3 / daynight / ElderS3)
 
 English | [简体中文](README.zh-CN.md)
 
@@ -11,10 +11,13 @@ watchface format (`ws3`), used to build custom dials with **smooth sweep seconds
 ## What is this
 
 - Target device: Xiaomi Watch S3 (M2313W1), 466×466 AMOLED, logical canvas 464×464, center (232,232)
-- Three finished dials:
+- Four finished dials:
   - **RouletteS3**: Google Pixel Watch-style roulette dial — smooth sweep seconds + AOD + four rounded progress arcs (latest v74)
   - **MinimalS3**: digital dial with time-aware greetings, 1 Hz colon blink and a clean AOD transition (latest v5_fix)
   - **daynight**: auto day/night background switching (day/night-enhanced MinimalS3, shipped as MinimalS3_v5_fix)
+  - **ElderS3**: large-type digital dial for elderly users — huge 118 px time, prominent red heart rate,
+    clearly labeled battery / weather / steps, weather icon auto-switching via the official 25 weather codes,
+    1 Hz colon blink and an AOD face (latest v2)
 - **Mi8WfBinTool**, our own Java packer: builds installable `.bin` files from `wfDef.json` + PNG assets
 
 ## Features
